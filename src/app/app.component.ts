@@ -1,4 +1,4 @@
-import { afterNextRender, Component, inject } from '@angular/core';
+import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { interval, switchMap } from 'rxjs';
 import { AppService } from './app.service';
@@ -13,14 +13,18 @@ import { AppService } from './app.service';
 export class AppComponent {
   #service = inject(AppService);
 
+  artist = signal('');
+  track = signal('');
+  artwork = signal<ArrayBuffer | null>(null);
+
   constructor() {
     afterNextRender(() => {
       interval(1000)
         .pipe(switchMap(() => this.#service.getInfo()))
         .subscribe(([artwork, artist, track]) => {
-          console.log('Artwork:', artwork);
-          console.log('Artist:', artist);
-          console.log('Track:', track);
+          this.artwork.set(artwork);
+          this.artist.set(artist);
+          this.track.set(track);
         });
     })
   }

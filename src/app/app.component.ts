@@ -1,8 +1,7 @@
-import { NgOptimizedImage } from '@angular/common';
 import { afterNextRender, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AppService } from './app.service';
 import { interval, switchMap } from 'rxjs';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',

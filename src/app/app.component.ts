@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { afterNextRender, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AppService } from './app.service';
+import { interval, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +12,17 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ng-snip-overlay';
+  #service = inject(AppService);
+
+  constructor() {
+    afterNextRender(() => {
+      interval(1000)
+        .pipe(switchMap(() => this.#service.getInfo()))
+        .subscribe(([artwork, artist, track]) => {
+          console.log('Artwork:', artwork);
+          console.log('Artist:', artist);
+          console.log('Track:', track);
+        });
+    })
+  }
 }

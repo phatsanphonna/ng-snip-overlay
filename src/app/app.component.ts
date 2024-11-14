@@ -1,4 +1,5 @@
 import { afterNextRender, Component, inject, signal } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { interval, switchMap } from 'rxjs';
 import { AppService } from './app.service';
@@ -8,14 +9,13 @@ import { AppService } from './app.service';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
 export class AppComponent {
   #service = inject(AppService);
 
   artist = signal('');
   track = signal('');
-  artwork = signal<ArrayBuffer | null>(null);
+  artwork = signal<SafeUrl | null>(null);
 
   constructor() {
     afterNextRender(() => {

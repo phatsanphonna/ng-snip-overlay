@@ -1,1 +1,11 @@
-<img src="Snip_Artwork.jpg" />
+<div class="flex gap-2 items-center drop-shadow">
+  @if (artwork()) {
+  <img [src]="artwork()" class="rounded h-20 w-20" />
+  }
+  @if (artist() && track()) {
+  <div class="bg-gradient-to-l from-slate-500 to-slate-800 h-20 w-96 flex flex-col justify-center rounded p-2 text-white">
+    <p class="font-bold text-3xl">{{ artist() }}</p>
+    <p class="text-2xl text-nowrap">{{ track() }}</p>
+  </div>
+  }
+</div>

@@ -14,11 +14,6 @@ export class AppService {
   #getArtwork() {
     return this.#http
       .get('Snip_Artwork.jpg', { responseType: 'arraybuffer' })
-      .pipe(
-        map((data: ArrayBuffer) => {
-          return this.#util.getImageUrl(data);
-        })
-      );
   }
 
   #getArtist() {

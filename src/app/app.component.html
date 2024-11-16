@@ -3,7 +3,7 @@
   <img [src]="artwork()" @openClose class="rounded h-20 w-20" />
   }
   @if (artist() && track()) {
-  <app-track-info @openClose [artist]="artist()" [track]="track()"></app-track-info>
+  <app-track-info @openClose [artist]="artist()" [track]="track()" [bgColor]="bgColor()"></app-track-info>
   }
 </div>
 

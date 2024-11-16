@@ -1,5 +1,6 @@
 import { inject, Injectable } from "@angular/core";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { FastAverageColor } from 'fast-average-color';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,15 @@ export class UtilService {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
+  }
+
+  async getAverageColor(imageUrl: ArrayBuffer): Promise<string> {
+    const blob = new Blob([imageUrl], { type: 'image/jpg' });
+    const url = URL.createObjectURL(blob);
+
+    const fac = new FastAverageColor();
+    const color = await fac.getColorAsync(url);
+    return color.hex;
   }
 
   getImageUrl(data: ArrayBuffer) {

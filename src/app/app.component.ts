@@ -1,9 +1,10 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { afterNextRender, Component, inject, signal } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
-import { interval, switchMap } from 'rxjs';
+import { interval, map, switchMap } from 'rxjs';
 import { AppService } from './app.service';
 import { TrackInfoComponent } from './track-info/track-info.component';
+import { UtilService } from './util.service';
 
 @Component({
   imports: [TrackInfoComponent],
@@ -24,23 +25,33 @@ import { TrackInfoComponent } from './track-info/track-info.component';
 })
 export class AppComponent {
   #service = inject(AppService);
+  #util = inject(UtilService);
 
   artist = signal('');
   track = signal('');
   artwork = signal<SafeUrl | null>(null);
-
-  artistBackup = signal('');
-  trackBackup = signal('');
-  artworkBackup = signal<SafeUrl | null>(null);
+  bgColor = signal<string>('#000');
 
   constructor() {
     afterNextRender(() => {
       interval(1000)
-        .pipe(switchMap(() => this.#service.getInfo()))
-        .subscribe(async ([artwork, artist, track]) => {
+        .pipe(
+          switchMap(() => this.#service.getInfo()),
+          map(([artwork, artist, track]) => {
+            return {
+              artwork: this.#util.getImageUrl(artwork),
+              artist,
+              track,
+              artworkBgColor: artwork
+            }
+          }),
+        )
+        .subscribe(async ({ artwork, artist, track, artworkBgColor }) => {
           this.artwork.set(artwork);
           this.artist.set(artist);
           this.track.set(track);
+          this.bgColor.set(await this.#util.getAverageColor(artworkBgColor));
+          console.log(this.bgColor());
         });
     })
   }

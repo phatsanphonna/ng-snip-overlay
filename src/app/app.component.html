@@ -1,11 +1,37 @@
 <div class="flex gap-2 items-center drop-shadow">
   @if (artwork()) {
-  <img [src]="artwork()" class="rounded h-20 w-20" />
+  <img [src]="artwork()" @openClose class="rounded h-20 w-20" />
   }
   @if (artist() && track()) {
-  <div class="bg-gradient-to-l from-slate-500 to-slate-800 h-20 w-96 flex flex-col justify-center rounded p-2 text-white">
-    <p class="font-bold text-3xl">{{ artist() }}</p>
-    <p class="text-2xl text-nowrap">{{ track() }}</p>
-  </div>
+  <app-track-info @openClose [artist]="artist()" [track]="track()"></app-track-info>
   }
 </div>
+
+<style>
+  .marquee {
+    display: inline-block;
+    /* Inline-block to measure width properly */
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+    animation: bounce 4s ease-in-out infinite alternate;
+    overflow: hidden;
+    /* Hide overflow text */
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: translateX(0);
+      /* Start at the beginning */
+    }
+
+    50% {
+      transform: translateX(calc(-100% + 24rem));
+      /* Move left, with container width adjustment */
+    }
+
+    100% {
+      transform: translateX(0);
+      /* Return to original position */
+    }
+  }
+</style>

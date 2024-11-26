@@ -5,9 +5,10 @@ import { interval, map, switchMap } from 'rxjs';
 import { AppService } from './app.service';
 import { TrackInfoComponent } from './track-info/track-info.component';
 import { UtilService } from './util.service';
+import { AlbumComponent } from './album/album.component';
 
 @Component({
-  imports: [TrackInfoComponent],
+  imports: [TrackInfoComponent, AlbumComponent],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,7 +25,7 @@ import { UtilService } from './util.service';
   ]
 })
 export class AppComponent {
-  #service = inject(AppService);
+  readonly #service = inject(AppService);
   #util = inject(UtilService);
 
   artist = signal('');

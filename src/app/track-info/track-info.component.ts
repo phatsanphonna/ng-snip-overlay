@@ -7,9 +7,9 @@ import { Component, effect, ElementRef, input, viewChild } from "@angular/core";
 
 })
 export class TrackInfoComponent {
-  artist = input('');
-  track = input('');
-  bgColor = input('#1f2937');
+  readonly artist = input('');
+  readonly track = input('');
+  readonly bgColor = input('#1f2937');
 
   containerEl = viewChild<ElementRef>('container');
 

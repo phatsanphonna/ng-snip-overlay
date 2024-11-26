@@ -1,10 +1,12 @@
-<div class="flex gap-2 items-center drop-shadow">
-  @if (artwork()) {
-  <img [src]="artwork()" @openClose class="rounded h-20 w-20" />
-  }
-  @if (artist() && track()) {
-  <app-track-info @openClose [artist]="artist()" [track]="track()" [bgColor]="bgColor()"></app-track-info>
-  }
+<div class="w-[472px] flex flex-col gap-2">
+  <div class="flex gap-2 items-center drop-shadow">
+    @if (artwork()) {
+    <app-album @openClose [artwork]="artwork()!"></app-album>
+    }
+    @if (artist() && track()) {
+    <app-track-info @openClose [artist]="artist()" [track]="track()" [bgColor]="bgColor()"></app-track-info>
+    }
+  </div>
 </div>
 
 <style>
